@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model Customer {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String    @unique
+  totalSpend  Float
+  visits      Int
+  lastVisit   DateTime?
+  createdAt DateTime @default(now())
+  orders      Order[]
+}
+
+
+model Order {
+  id          Int       @id @default(autoincrement())
+  customerId  Int
+  amount      Float
+  createdAt   DateTime  @default(now())
+  orderDate   DateTime
+  customer    Customer  @relation(fields: [customerId], references: [id])
+}
+
+
+model AudienceSegment {
+  id              Int                 @id @default(autoincrement())
+  name            String
+  minTotalSpending Int?               
+  maxVisitCount    Int?                
+  audienceSize    Int
+  communicationLogs CommunicationLog[] 
+}
+
+model CommunicationLog {
+  id          Int                 @id @default(autoincrement())
+  audienceId  Int
+  status      String              // SENT, FAILED
+  sentAt      DateTime            @default(now())
+  audience    AudienceSegment     @relation(fields: [audienceId], references: [id]) // Relation to AudienceSegment
+}
