@@ -70,12 +70,36 @@ const CreateAudience = () => {
     audienceSize: "",
   });
 
+  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+
+  //   // Check if the field is "name" (which should be treated as a string) or a number field
+  //   if (name === "name") {
+  //     // If it's the "name" field, keep it as a string
+  //     setFormData({
+  //       ...formData,
+  //       [name]: value,
+  //     });
+  //   } else {
+  //     // For number fields, check if the value is empty or a valid number
+  //     setFormData({
+  //       ...formData,
+  //       [name]:
+  //         value === ""
+  //           ? ""
+  //           : !isNaN(Number(value))
+  //           ? Number(value)
+  //           : formData[name],
+  //     });
+  //   }
+  // };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    // Check if the field is "name" (which should be treated as a string) or a number field
+    // Ensure 'name' is one of the keys of FormData
     if (name === "name") {
-      // If it's the "name" field, keep it as a string
+      // If it's the "name" field, treat it as a string
       setFormData({
         ...formData,
         [name]: value,
@@ -84,12 +108,13 @@ const CreateAudience = () => {
       // For number fields, check if the value is empty or a valid number
       setFormData({
         ...formData,
-        [name]:
+        // Cast `name` to a key of `FormData`
+        [name as keyof FormData]:
           value === ""
             ? ""
             : !isNaN(Number(value))
             ? Number(value)
-            : formData[name],
+            : formData[name as keyof FormData], // Safe access using keyof FormData
       });
     }
   };
