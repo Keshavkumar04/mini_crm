@@ -51,5 +51,5 @@ model CommunicationLog {
   audienceId  Int
   status      String              // SENT, FAILED
   sentAt      DateTime            @default(now())
-  audience    AudienceSegment     @relation(fields: [audienceId], references: [id]) // Relation to AudienceSegment
+  audience    AudienceSegment     @relation(fields: [audienceId], references: [id]) 
 }

@@ -9,9 +9,9 @@ export async function POST(request: Request): Promise<NextResponse> {
       data: {
         name,
         email,
-        totalSpend: parseFloat(totalSpend), // Ensure proper type
-        visits: parseInt(visits, 10), // Ensure proper type
-        lastVisit: new Date(lastVisit), // Parse date
+        totalSpend: parseFloat(totalSpend),
+        visits: parseInt(visits, 10),
+        lastVisit: new Date(lastVisit),
       },
     });
 
